@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.SpringLibrary.repository.EmployerMyBatisRepo">
+
+    <select id="findAll" resultType="ConnectWrapper">
+        SELECT <include refid="employerWithPOSDEP"></include>
+        FROM abb_management.employer e left join abb_management.departments d
+        on e.department_id = d.department_id
+        left join position p
+        on e.position_id = p.position_id;
+    </select>
+
+    <select id="findByEmployerID" resultType="ConnectWrapper">
+        SELECT <include refid="employerWithPOSDEP"></include>
+        FROM abb_management.employer e
+        left join abb_management.departments d
+        on e.department_id=d.department_id
+        left join position p
+        on p.position_id=e.position_id
+        <where>
+            e.employer_id=#{employerId};
+        </where>
+    </select>
+
+    <insert id="insert">
+        insert into employer(
+        name,
+        surname,
+        email,
+        department_id,
+        position_id,
+        status,
+        createdAte,
+        updatedAte
+        )
+        values(
+        #{name},
+        #{surname},
+        #{email},
+        #{departments.departmentId},
+        #{position.positionId},
+        #{status},
+        #{createdAte},
+        #{updatedAte});
+
+    </insert>
+
+    <update id="update">
+        update abb_management.employer e
+        set
+        e.name=#{name},
+        e.surname=#{surname},
+        e.email=#{email},
+        e.department_id=#{departments.departmentId},
+        e.position_id=#{position.positionId},
+        e.status=#{status},
+        e.createdAte=#{createdAte},
+        e.updatedAte=#{updatedAte}
+
+        where e.employer_id=#{employerId};
+    </update>
+
+
+    <delete id="delete">
+        DELETE
+        FROM abb_management.employer e
+        <where>
+            e.employer_id = #{employerId}
+        </where>
+    </delete>
+
+    <sql id="employerBaseColumns">
+        e.employer_id
+        e.name
+        e.surname,
+        e.email,
+        e.department_id,
+        e.position_id,
+        e.status,
+        e.created_ate,
+        e.updated_ate
+    </sql>
+
+    <sql id="employerWithPOSDEP">
+        e.employer_id  ,
+        e.name ,
+        e.surname ,
+        e.email ,
+        e.department_id,
+        e.position_id ,
+        e.status ,
+        e.createdAte ,
+        e.updatedAte ,
+        d.departmentName ,
+        d.createdAtd ,
+        d.updatedAtd ,
+        p.position_id ,
+        p.positionName ,
+        p.salary AS salary,
+        p.createdAtp ,
+        p.updatedAtp
+    </sql>
+
+</mapper>

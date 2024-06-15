@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.SpringLibrary.repository.PositionMyBatisRepo">
+
+    <select id="findAll" resultType="ConnectPos">
+        SELECT <include refid="ConnectPosDepColumn"></include>
+        FROM abb_management.position p
+        LEFT JOIN abb_management.departments d
+        ON p.department_id = d.department_id;
+    </select>
+
+    <select id="findByPositionID" resultType="ConnectPos">
+        SELECT <include refid="ConnectPosDepColumn"></include>
+        FROM abb_management.position p left join abb_management.departments d
+        on p.department_id=d.department_id
+        <where>
+            p.position_id=#{positionId};
+        </where>
+    </select>
+
+    <insert id="insert">
+        insert into Position(
+        positionName,
+        salary,
+        departmentId,
+        createdAtp,
+        updatedAtp
+        )
+        values(
+        #{positionName},
+        #{salary},
+        #{departments.departmentId},
+        #{createdAtp},
+        #{updatedAtp}
+        );
+    </insert>
+
+
+    <update id="update">
+        update abb_management.position p
+        set p.pos_name=#{positionName},
+        p.salary=#{salary},
+        p.departmentId=#{departmentId},
+        p.createdAtp=#{createdAtp},
+        p.updatedAtp=#{updatedAtp}
+
+        where p.position_id = #{positionId};
+    </update>
+
+    <delete id="delete">
+        DELETE
+        FROM abb_management.position p
+        <where>
+            p.position_id = #{positionId}
+        </where>
+    </delete>
+
+    <sql id="positionBaseColumns">
+        p.position_id
+        p.positionName,
+        p.salary,
+        e.createdAtp,
+        e.updatedAtp
+    </sql>
+    <sql id="ConnectPosDepColumn">
+        p.position_id,
+        p.positionName,
+        p.salary,
+        p.createdAtp,
+        p.updatedAtp,
+        d.department_id,
+        d.departmentName,
+        d.createdAtd,
+        d.updatedAtd
+    </sql>
+</mapper>
