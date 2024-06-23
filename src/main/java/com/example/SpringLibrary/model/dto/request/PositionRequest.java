@@ -19,6 +19,6 @@ public class PositionRequest {
     private Long departmentId;
     private LocalDateTime createdAtp;
     private LocalDateTime updatedAtp;
-  //  private Long deparmentId;
+   // private Long departmentId;
 
 }

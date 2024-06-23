@@ -19,6 +19,6 @@ public class Position {
     private LocalDateTime createdAtp;
     private LocalDateTime updatedAtp;
     private Departments departments;
- //   private Long departmentId;
+    private Long departmentId;
 
 }
