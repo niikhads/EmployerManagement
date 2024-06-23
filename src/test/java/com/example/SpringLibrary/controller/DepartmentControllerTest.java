@@ -99,6 +99,7 @@ public class DepartmentControllerTest {
                 .andExpect(status().isOk());
     }
     @Test
+
     public void testDeleteDepartment_Success() throws Exception {
         Departments departments= Departments.builder().departmentId(1L).build();
         DepartmentsRequest departmentsRequest=DepartmentsRequest.builder().departmentName("Management").build();
